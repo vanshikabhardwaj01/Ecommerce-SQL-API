@@ -4,6 +4,9 @@ const path = require('path');
 const dbPath = path.resolve(__dirname, 'ecommerce.db');
 const db = new sqlite3.Database(dbPath);
 
+// Set a timeout so SQLite waits for the database lock instead of failing instantly on concurrent requests
+db.configure('busyTimeout', 5000);
+
 function initDB() {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
